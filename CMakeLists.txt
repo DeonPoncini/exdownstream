@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 2.8)
 project(exdownstream)
 
+set(EXDOWNSTREAM_VERSION "0.0.1")
+
 ################################
 # Compiler setup
 ################################
 
-add_definitions(-Wall)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+find_package(libexupstream1)
+find_package(libexupstream2)
+include_directories(${LIBEXUPSTREAM1_INCLUDE_DIRS})
+include_directories(${LIBEXUPSTREAM2_INCLUDE_DIRS})
 
 ################################
 # Locate source
@@ -24,3 +27,20 @@ include_directories(include)
 add_executable(exdownstream
     ${SRC}
     ${INCLUDES})
+
+target_link_libraries(exdownstream
+    ${LIBEXUPSTREAM1_LIBRARIES}
+    ${LIBEXUPSTREAM2_LIBRARIES}
+)
+
+################################
+# Export binaries
+################################
+
+export_project(
+    NAME exdownstream
+    BINS exdownstream
+    VERSION ${EXDOWNSTREAM_VERSION}
+)
+
+
